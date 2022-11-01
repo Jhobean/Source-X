@@ -77,7 +77,7 @@ for:
 
     after_build:
       # if we are testing a pull request, we don't want to upload the build to the host
-      - IF DEFINED APPVEYOR_PULL_REQUEST_NUMBER (appveyor exit)
+      #- IF DEFINED APPVEYOR_PULL_REQUEST_NUMBER (appveyor exit)
 
       - ECHO ** Compilation done. Packing the files and uploading to SphereCommunity
       - mkdir accounts logs save scripts
@@ -87,7 +87,7 @@ for:
       - rename SphereX-Scriptpack-master scripts
       - 7z a SphereSvrX-win64-nightly.zip accounts\ logs\ save\ scripts\ "%APPVEYOR_BUILD_FOLDER%\%BUILD_DIR_64%\bin64\Nightly\SphereSvrX64_nightly.exe" "%APPVEYOR_BUILD_FOLDER%\src\sphere.ini" "%APPVEYOR_BUILD_FOLDER%\src\sphereCrypt.ini" "%APPVEYOR_BUILD_FOLDER%\dlls\64\libmysql.dll"
       - 7z a SphereSvrX-win32-nightly.zip accounts\ logs\ save\ scripts\ "%APPVEYOR_BUILD_FOLDER%\%BUILD_DIR_32%\bin\Nightly\SphereSvrX32_nightly.exe" "%APPVEYOR_BUILD_FOLDER%\src\sphere.ini" "%APPVEYOR_BUILD_FOLDER%\src\sphereCrypt.ini" "%APPVEYOR_BUILD_FOLDER%\dlls\32\libmysql.dll"
-      - curl -sST "{SphereSvrX-win64-nightly.zip,SphereSvrX-win32-nightly.zip}" -u %FTP_USER%:%FTP_PASSWORD% %FTP_SERVER%
+      #- curl -sST "{SphereSvrX-win64-nightly.zip,SphereSvrX-win32-nightly.zip}" -u %FTP_USER%:%FTP_PASSWORD% %FTP_SERVER%
 
     artifacts:
       - path: SphereSvrX-win64-nightly.zip
@@ -157,10 +157,10 @@ for:
 
     after_build:
       # if we are testing a pull request, we don't want to upload the build to the host
-      - |-
-        if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
-          exit 0
-        fi
+      #- |-
+      #  if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
+      #    exit 0
+      #  fi
       - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo
       - mkdir accounts logs save scripts
       - echo && echo "** Geting Sphere X scripts pack." && echo
@@ -169,7 +169,7 @@ for:
       - mv ./SphereX-Scriptpack-master ./scripts
       - tar -czf SphereSvrX-linux64-nightly.tar.gz accounts/ logs/ save/ scripts/ "${BUILD_DIR_64}/bin64/SphereSvrX64_nightly" -C src/ sphere.ini sphereCrypt.ini
       - tar -czf SphereSvrX-linux32-nightly.tar.gz accounts/ logs/ save/ scripts/ "${BUILD_DIR_32}/bin/SphereSvrX32_nightly" -C src/ sphere.ini sphereCrypt.ini
-      - curl -sST "{SphereSvrX-linux64-nightly.tar.gz,SphereSvrX-linux32-nightly.tar.gz}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
+      #- curl -sST "{SphereSvrX-linux64-nightly.tar.gz,SphereSvrX-linux32-nightly.tar.gz}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
 
     artifacts:
       - path: SphereSvrX-linux64-nightly.tar.gz
