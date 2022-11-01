@@ -139,7 +139,7 @@ for:
       #    exit 0
        # fi
 
-      #- cd ..
+      - cd ..
 
       - echo && echo "** Setting up MySQL development packages for 32 bits" && echo
       - sudo apt remove -yqq libmysql++-dev > /dev/null
