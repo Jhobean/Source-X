@@ -63,9 +63,9 @@ for:
       - echo && echo "** Geting Sphere X scripts pack." && echo
       - curl https://github.com/Sphereserver/Scripts-X/archive/refs/heads/main.zip -L -o scriptspack.zip
       - unzip scriptspack.zip
-      - mv ./Scripts-X-main ./scripts
       - mkdir scripts
-      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ scripts/
+      - mv ./Scripts-X-main ./scripts
+      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/
       - cd src/
       - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini
       - cd "../${BUILD_DIR_64}/bin64"
