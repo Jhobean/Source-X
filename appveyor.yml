@@ -34,6 +34,45 @@ environment:
 
 # Build scripts
 for:
+ - # OSX build
+    matrix:
+      only:
+        - image: macos
+    
+    install:
+      - echo && echo "** Setting up compiler" && echo
+      - export HOMEBREW_NO_AUTO_UPDATE=1
+      - brew install ninja mysql-client
+      - gcc -v && g++ -v && cmake --version
+    # Use our custom script
+    build_script:
+      - echo && echo "** Starting to build 64 bits Nightly version" && echo
+      - mkdir -p "$BUILD_DIR_64"
+      - cd "$BUILD_DIR_64"
+      - cmake -G Ninja ../src -DCMAKE_BUILD_TYPE="Nightly" && cmake --build . || exit 1
+      - cd ..
+    after_build:
+      # if we are testing a pull request, we don't want to upload the build to the host
+      #- |-
+      #  if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
+      #    exit 0
+      #  fi
+      - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo
+      - mkdir accounts logs save
+      - echo && echo "** Geting Sphere X scripts pack." && echo
+      - curl https://github.com/Sphereserver/Scripts-X/archive/refs/heads/main.zip -L -o scriptspack.zip
+      - unzip scriptspack.zip
+      - mv ./Scripts-X-main ./scripts
+      - mkdir scripts
+      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ scripts/
+      - cd src/
+      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini
+      - cd "../${BUILD_DIR_64}/bin64"
+      - zip -r ../../SphereSvrX-osx64-nightly.zip *
+      #- curl -sST "{SphereSvrX-osx64-nightly.zip}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
+    artifacts:
+      - path: SphereSvrX-osx64-nightly.zip
+
 
   - # Windows build
     matrix:
@@ -175,41 +214,4 @@ for:
       - path: SphereSvrX-linux64-nightly.tar.gz
       - path: SphereSvrX-linux32-nightly.tar.gz
       
-  - # OSX build
-    matrix:
-      only:
-        - image: macos
-    
-    install:
-      - echo && echo "** Setting up compiler" && echo
-      - export HOMEBREW_NO_AUTO_UPDATE=1
-      - brew install ninja mysql-client
-      - gcc -v && g++ -v && cmake --version
-    # Use our custom script
-    build_script:
-      - echo && echo "** Starting to build 64 bits Nightly version" && echo
-      - mkdir -p "$BUILD_DIR_64"
-      - cd "$BUILD_DIR_64"
-      - cmake -G Ninja ../src -DCMAKE_BUILD_TYPE="Nightly" && cmake --build . || exit 1
-      - cd ..
-    after_build:
-      # if we are testing a pull request, we don't want to upload the build to the host
-      #- |-
-      #  if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
-      #    exit 0
-      #  fi
-      - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo
-      - mkdir accounts logs save
-      - echo && echo "** Geting Sphere X scripts pack." && echo
-      - curl https://github.com/Sphereserver/Scripts-X/archive/refs/heads/main.zip -L -o scriptspack.zip
-      - unzip scriptspack.zip
-      - mv ./Scripts-X-main ./scripts
-      - mkdir scripts
-      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ scripts/
-      - cd src/
-      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini
-      - cd "../${BUILD_DIR_64}/bin64"
-      - zip -r ../../SphereSvrX-osx64-nightly.zip *
-      #- curl -sST "{SphereSvrX-osx64-nightly.zip}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
-    artifacts:
-      - path: SphereSvrX-osx64-nightly.zip
+ 
