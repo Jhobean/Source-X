@@ -15,9 +15,10 @@ version: 1.1.0.{build}
 
 # Set up two building environments (two first class elements in the build matrix)
 image:
+  - macos 
   - Visual Studio 2017
   - Ubuntu
-  - macos
+
 
 # Environmental variables
 environment:
@@ -34,7 +35,7 @@ environment:
 
 # Build scripts
 for:
- - # OSX build
+  - # OSX build
     matrix:
       only:
         - image: macos
