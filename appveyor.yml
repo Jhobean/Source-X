@@ -64,9 +64,9 @@ for:
       - curl https://github.com/Sphereserver/Scripts-X/archive/refs/heads/main.zip -L -o scriptspack.zip
       - unzip scriptspack.zip
       - mv ./Scripts-X-main ./scripts
-      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ 
+      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ scripts/
       - cd src/
-      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini scripts/
+      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini
       - cd "../${BUILD_DIR_64}/bin64"
       - zip -r ../../SphereSvrX-osx64-nightly.zip *
       #- curl -sST "{SphereSvrX-osx64-nightly.zip}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
