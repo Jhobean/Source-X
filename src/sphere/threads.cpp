@@ -13,9 +13,7 @@
 	#include <process.h>
 	#include <objbase.h>
 #elif !defined(_BSD)
-#ifndef __APPLE__
 	#include <sys/prctl.h>
-#endif
 #endif
 
 

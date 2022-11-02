@@ -8,9 +8,7 @@ AutoResetEvent::AutoResetEvent()
 	m_handle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 #else
 	pthread_mutexattr_init(&m_criticalSectionAttr);
-#ifndef __APPLE__
 	pthread_mutexattr_settype(&m_criticalSectionAttr, PTHREAD_MUTEX_RECURSIVE_NP);
-#endif
 	pthread_mutex_init(&m_criticalSection, &m_criticalSectionAttr);
 
 	pthread_condattr_init(&m_conditionAttr);
@@ -94,9 +92,7 @@ ManualResetEvent::ManualResetEvent()
 #else
 	m_value = false;
 	pthread_mutexattr_init(&m_criticalSectionAttr);
-#ifndef __APPLE__
 	pthread_mutexattr_settype(&m_criticalSectionAttr, PTHREAD_MUTEX_RECURSIVE_NP);
-#endif
 	pthread_mutex_init(&m_criticalSection, &m_criticalSectionAttr);
 
 	pthread_condattr_init(&m_conditionAttr);
