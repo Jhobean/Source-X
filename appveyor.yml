@@ -175,10 +175,11 @@ for:
       - path: SphereSvrX-linux64-nightly.tar.gz
       - path: SphereSvrX-linux32-nightly.tar.gz
       
-      - # OSX build
+      - # Linux build
     matrix:
       only:
         - image: macos
+    
     install:
       - echo && echo "** Setting up compiler" && echo
       - export HOMEBREW_NO_AUTO_UPDATE=1
@@ -193,10 +194,10 @@ for:
       - cd ..
     after_build:
       # if we are testing a pull request, we don't want to upload the build to the host
-      - |-
-        if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
-          exit 0
-        fi
+      #- |-
+       # if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
+       #   exit 0
+       # fi
       - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo
       - mkdir accounts logs save
       - echo && echo "** Geting Sphere X scripts pack." && echo
