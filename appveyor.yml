@@ -58,16 +58,15 @@ for:
       #  if [ -n "${APPVEYOR_PULL_REQUEST_NUMBER}" ]; then
       #    exit 0
       #  fi
-      - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo
-      - mkdir accounts logs save
+      - echo && echo "** Compilation done. Packing the files and uploading to SphereCommunity" && echo      
+      - mkdir accounts logs save scripts
       - echo && echo "** Geting Sphere X scripts pack." && echo
       - curl https://github.com/Sphereserver/Scripts-X/archive/refs/heads/main.zip -L -o scriptspack.zip
       - unzip scriptspack.zip
-      - mkdir scripts
       - mv ./Scripts-X-main ./scripts
-      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/
+      - zip -r SphereSvrX-osx64-nightly.zip accounts/ logs/ save/ 
       - cd src/
-      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini
+      - zip ../SphereSvrX-osx64-nightly.zip sphere.ini sphereCrypt.ini scripts/
       - cd "../${BUILD_DIR_64}/bin64"
       - zip -r ../../SphereSvrX-osx64-nightly.zip *
       #- curl -sST "{SphereSvrX-osx64-nightly.zip}" -u ${FTP_USER}:${FTP_PASSWORD} ${FTP_SERVER}
