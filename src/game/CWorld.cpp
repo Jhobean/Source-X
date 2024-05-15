@@ -1106,6 +1106,7 @@ bool CWorld::CheckAvailableSpaceForSave(bool fStatics)
         g_Log.Event(LOGL_CRIT, "-----------------------------");
         g_Log.Event(LOGL_CRIT, "Save ABORTED! Low disk space!");
         g_Log.Event(LOGL_CRIT, "-----------------------------");
+        g_Log.Event(LOGL_CRIT, "FreeSpace:%d PreviousSave:%d ServMem:%d", uiFreeSpace, uiPreviousSaveSize, uiServMem);
 		CWorldComm::Broadcast("Save ABORTED! Warn the administrator!");
         return false;
     }
