@@ -1,7 +1,3 @@
-#ifndef _INC_TARGET_INFO_H
-#define _INC_TARGET_INFO_H
-
-
 [[maybe_unused]]
 constexpr const char* get_target_os_str()
 {
@@ -74,6 +70,3 @@ constexpr const char* get_target_arch_str()
     return "UNKNOWN";
 #endif
 }
-
-
-#endif // _INC_TARGET_INFO_H

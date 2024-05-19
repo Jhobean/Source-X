@@ -1,3 +1,4 @@
+SET (TOOLCHAIN 1)
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/Windows-GNU_common.inc.cmake")
 
 function (toolchain_after_project)

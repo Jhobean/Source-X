@@ -118,7 +118,7 @@ namespace sl
         // Construct an object_ptr from a raw pointer convertible to T*, such as BaseOfT*
         template <
             typename U,
-            typename = std::enable_if_t<std::is_convertible_v<U*, T*>>>
+            typename = std::enable_if_t<std::is_convertible<U*, T*>::value>>
             constexpr smart_ptr_view(U* ptr_) noexcept = delete;
 
         // Convert to a raw pointer
@@ -154,7 +154,7 @@ namespace sl
         /// Construct a raw_ptr_view from a raw pointer convertible to T*, such as BaseOfT*
         template <
             typename U,
-            typename = std::enable_if_t<std::is_convertible_v<U*, T*>>>
+            typename = std::enable_if_t<std::is_convertible<U*, T*>::value>>
             constexpr raw_ptr_view(U* ptr_) noexcept : ptr(ptr_) {}
 
         /// Do NOT construct a raw_ptr_view from a smart pointer that holds a pointer convertible to T*,

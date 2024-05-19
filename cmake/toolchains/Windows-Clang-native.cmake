@@ -1,3 +1,4 @@
+SET (TOOLCHAIN 1)
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/Windows-Clang_common.inc.cmake")
 
 function (toolchain_after_project)

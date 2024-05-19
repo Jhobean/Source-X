@@ -2,8 +2,6 @@
 /.git/
 /.vscode/
 *.vshistory*
-/kdev*
-
 /CMakeFiles/
 /spheresvr.dir/
 
@@ -35,12 +33,10 @@
 *.o
 *.obj
 *.exe
-
 *.vs
 *.vcx*
 *.sln
 *.user
-*.kdev*
 
 
 # Ignore some files in the parent folder
