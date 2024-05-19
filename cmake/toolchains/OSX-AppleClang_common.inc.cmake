@@ -108,7 +108,6 @@ unreachable,nonnull-attribute,returns-nonnull-attribute \
 			HINT
 			"/usr/local/opt/mariadb-connector-c/lib/mariadb"
 			"/opt/homebrew/var/mariadb-connector-c/lib/mariadb"
-			"/opt/homebrew/lib/mariadb"
 		)
 	ENDFOREACH ()
 
