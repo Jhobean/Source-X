@@ -20,7 +20,6 @@ class CSObjContRec
 public:
     friend class CSObjCont;
     static const char * m_sClassName;
-
     /** @name Constructors, Destructor, Asign operator:
     */
     ///@{
@@ -29,15 +28,15 @@ public:
     */
     CSObjContRec();
     virtual ~CSObjContRec();
-
+private:
     /**
     * @brief No copies allowed.
     */
-    CSObjContRec(const CSObjContRec& copy) = delete;
+    CSObjContRec(const CSObjContRec& copy);
     /**
     * @brief No copies allowed.
     */
-    CSObjContRec& operator=(const CSObjContRec& other) = delete;
+    CSObjContRec& operator=(const CSObjContRec& other);
     ///@}
     /** @name Iterators:
     */

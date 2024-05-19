@@ -18,19 +18,18 @@ public:
 	/** @name Constructors, Destructor, Asign operator:
 	 */
 	///@{
-	CSQueueBytes() noexcept;
-	~CSQueueBytes() noexcept = default;
-
+	CSQueueBytes();
+	~CSQueueBytes();
+private:
 	/**
 	* @brief No copy on construction allowed.
     */
-	CSQueueBytes(const CSQueueBytes& copy) = delete;
+	CSQueueBytes(const CSQueueBytes& copy);
 	/**
 	* @brief No copy allowed.
     */
-	CSQueueBytes& operator=(const CSQueueBytes& other) = delete;
+	CSQueueBytes& operator=(const CSQueueBytes& other);
 	///@}
-
 public:
 	/** @name Capacity:
 	 */

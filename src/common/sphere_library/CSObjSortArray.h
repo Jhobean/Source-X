@@ -20,15 +20,15 @@ class CSObjSortArray : public CSObjArray<TYPE>
 public:
     CSObjSortArray() = default;
     virtual ~CSObjSortArray() override = default;
-
+private:
 	/**
     * @brief No copy on construction allowed.
     */
-	CSObjSortArray(const CSObjSortArray<TYPE, KEY_TYPE> & copy) = delete;
+	CSObjSortArray<TYPE, KEY_TYPE>(const CSObjSortArray<TYPE, KEY_TYPE> & copy);
 	/**
     * @brief No copy allowed.
     */
-	CSObjSortArray<TYPE, KEY_TYPE> & operator=(const CSObjSortArray<TYPE, KEY_TYPE> & other) = delete;
+	CSObjSortArray<TYPE, KEY_TYPE> & operator=(const CSObjSortArray<TYPE, KEY_TYPE> & other);
 	///@}
 	/** @name Modifiers:
 	 */

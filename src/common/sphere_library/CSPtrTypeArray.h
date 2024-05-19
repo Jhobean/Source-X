@@ -19,16 +19,15 @@ public:
     ///@{
     CSPtrTypeArray() = default;
     virtual ~CSPtrTypeArray() = default;
-
     /**
     * @brief Copy constructor.
     */
-    CSPtrTypeArray(const CSPtrTypeArray<TYPE> & copy);
+    CSPtrTypeArray<TYPE>(const CSPtrTypeArray<TYPE> & copy);
     /**
     * @brief Assign operator
     */
     CSPtrTypeArray<TYPE>& operator=(const CSPtrTypeArray<TYPE> & other);
-
+private:
     ///@}
     /** @name Modifiers:
     */
@@ -54,7 +53,7 @@ public:
     * @param pData data to look for.
     * @return position of the data if data is in the array, BadIndex otherwise.
     */
-    size_t FindPtr( TYPE pData ) const noexcept;
+    size_t FindPtr( TYPE pData ) const;
     ///@}
     /** @name Index Validation:
     */
@@ -64,13 +63,12 @@ public:
     * @param i index to check.
     * @return true if index is valid, false otherwise.
     */
-    bool IsValidIndex( size_t i ) const noexcept;
+    bool IsValidIndex( size_t i ) const;
     ///@}
 };
 
 template<class TYPE>
-CSPtrTypeArray<TYPE>::CSPtrTypeArray(const CSPtrTypeArray<TYPE> & copy) : CSTypedArray<TYPE>(static_cast<CSTypedArray<TYPE> >(copy))
-{
+CSPtrTypeArray<TYPE>::CSPtrTypeArray(const CSPtrTypeArray<TYPE> & copy) : CSTypedArray<TYPE>(static_cast<CSTypedArray<TYPE> >(copy)){
 }
 
 template<class TYPE>
@@ -102,7 +100,7 @@ bool CSPtrTypeArray<TYPE>::ContainsPtr( TYPE pData ) const
 }
 
 template<class TYPE>
-size_t CSPtrTypeArray<TYPE>::FindPtr( TYPE pData ) const noexcept
+size_t CSPtrTypeArray<TYPE>::FindPtr( TYPE pData ) const
 {
     if ( !pData )
         return sl::scont_bad_index();
@@ -117,7 +115,7 @@ size_t CSPtrTypeArray<TYPE>::FindPtr( TYPE pData ) const noexcept
 }
 
 template<class TYPE>
-bool CSPtrTypeArray<TYPE>::IsValidIndex( size_t i ) const noexcept
+bool CSPtrTypeArray<TYPE>::IsValidIndex( size_t i ) const
 {
     return ( (i < this->size()) && ((*this)[i] != nullptr) );
 }

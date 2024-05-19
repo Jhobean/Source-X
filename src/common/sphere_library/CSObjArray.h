@@ -24,23 +24,22 @@ public:
     */
     ///@{
 public:
-    CSObjArray() noexcept :
+    CSObjArray() noexcept : 
         _fBaseDestructorShouldDeleteElements(true)
     {}
     virtual ~CSObjArray() noexcept {
         ClearFree();
     }
-
+private:
     /**
     * @brief No copy on construction allowed.
     */
-    CSObjArray(const CSObjArray<TYPE> & copy) = delete;
+    CSObjArray<TYPE>(const CSObjArray<TYPE> & copy);
     /**
     * @brief No copy allowed.
     */
-    CSObjArray<TYPE> & operator=(const CSObjArray<TYPE> & other) = delete;
+    CSObjArray<TYPE> & operator=(const CSObjArray<TYPE> & other);
     ///@}
-
     /** @name Modifiers:
     */
     ///@{

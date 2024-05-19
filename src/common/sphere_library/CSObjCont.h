@@ -62,14 +62,15 @@ public:
     CSObjCont();
     virtual ~CSObjCont();
 
+private:
     /**
     * @brief No copies allowed.
     */
-    CSObjCont(const CSObjCont& copy) = delete;
+    CSObjCont(const CSObjCont& copy);
     /**
     * @brief No copies allowed.
     */
-    CSObjCont& operator=(const CSObjCont& other) = delete;
+    CSObjCont& operator=(const CSObjCont& other);
     ///@}
 
     /** @name Iterators:

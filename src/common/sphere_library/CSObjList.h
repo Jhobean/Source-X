@@ -23,15 +23,16 @@ public:
     CSObjList();
     virtual ~CSObjList();
 
+private:
     /**
     * @brief No copies allowed.
     */
-    CSObjList(const CSObjList& copy) = delete;
+    CSObjList(const CSObjList& copy);
 
     /**
     * @brief No copies allowed.
     */
-    CSObjList& operator=(const CSObjList& other) = delete;
+    CSObjList& operator=(const CSObjList& other);
     ///@}
 
     /** @name Capacity:

@@ -1,5 +1,5 @@
-#ifndef _INC_BASIC_THREADING_H
-#define _INC_BASIC_THREADING_H
+#ifndef _INC_BASIC_THREADING
+#define _INC_BASIC_THREADING
 
 /*
  * Defines for easy C++17 thread-locking for class methods.
@@ -50,4 +50,4 @@
 #endif
 */
 
-#endif // _INC_BASIC_THREADING_H
+#endif // _INC_BASIC_THREADING

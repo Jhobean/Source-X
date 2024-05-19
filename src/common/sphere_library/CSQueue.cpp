@@ -7,9 +7,14 @@
 
 // CSQueueBytes:: Constructors, Destructor, Asign operator.
 
-CSQueueBytes::CSQueueBytes() noexcept :
-    m_iDataQty(0)
-{}
+CSQueueBytes::CSQueueBytes()
+{
+	m_iDataQty = 0;
+}
+
+CSQueueBytes::~CSQueueBytes()
+{
+}
 
 // CSQueueBytes:: Modifiers.
 

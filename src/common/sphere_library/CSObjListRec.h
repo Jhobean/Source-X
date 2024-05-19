@@ -20,29 +20,28 @@ class CSObjListRec
 public:
     friend class CSObjList;
     static const char * m_sClassName;
-
     /** @name Constructors, Destructor, Asign operator:
     */
     ///@{
     /**
     * @brief set references for parent, next and previous to nullptr.
     */
-    CSObjListRec() noexcept :
-    m_pParent(nullptr), m_pNext(nullptr), m_pPrev(nullptr)
-    {}
-
+    CSObjListRec()
+    {
+        m_pParent = nullptr;
+        m_pNext = m_pPrev = nullptr;
+    }
     virtual inline ~CSObjListRec();
-
+private:
     /**
     * @brief No copies allowed.
     */
-    CSObjListRec(const CSObjListRec& copy) = delete;
+    CSObjListRec(const CSObjListRec& copy);
     /**
     * @brief No copies allowed.
     */
-    CSObjListRec& operator=(const CSObjListRec& other) = delete;
+    CSObjListRec& operator=(const CSObjListRec& other);
     ///@}
-
     /** @name Iterators:
     */
     ///@{
@@ -51,17 +50,17 @@ public:
     * @brief get the CSObjList propietary of this record.
     * @return CSObjList propietary of this record.
     */
-    inline CSObjList * GetParent() const noexcept;
+    inline CSObjList * GetParent() const;
     /**
     * @brief get the next record of the parent list.
     * @return the next record of the parent list.
     */
-    inline CSObjListRec * GetNext() const noexcept;
+    inline CSObjListRec * GetNext() const;
     /**
     * @brief get the previous record of the parent list.
     * @return the previous record of the parent list.
     */
-    inline CSObjListRec * GetPrev() const noexcept;
+    inline CSObjListRec * GetPrev() const;
     ///@}
     /** @name Capacity:
     */
@@ -93,17 +92,17 @@ inline CSObjListRec::~CSObjListRec()
 
 // CObjListRec:: Iterators.
 
-inline CSObjList * CSObjListRec::GetParent() const noexcept
+inline CSObjList * CSObjListRec::GetParent() const
 {
     return m_pParent;
 }
 
-inline CSObjListRec * CSObjListRec::GetNext() const noexcept
+inline CSObjListRec * CSObjListRec::GetNext() const
 {
     return m_pNext;
 }
 
-inline CSObjListRec * CSObjListRec::GetPrev() const noexcept
+inline CSObjListRec * CSObjListRec::GetPrev() const
 {
     return m_pPrev;
 }
