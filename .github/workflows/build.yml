@@ -10,11 +10,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v1.1
     - name: CMake
       run: cmake -G "Visual Studio 17 2022" .\
     - name: MSBuild
@@ -24,14 +24,14 @@ jobs:
             mkdir accounts, logs, save, scripts
             7z a SphereSvrX-win-x86_64-nightly.zip accounts\ logs\ save\ scripts\ .\bin-x86_64\Nightly\SphereSvrX64_nightly.exe .\src\sphere.ini .\src\sphereCrypt.ini .\lib\bin\x86_64\mariadb\libmariadb.dll
 
-    # Upload artifact linked to the workflow run - only if the run is for a pull request, or for selected branches
+    # only upload artifact in pull request or selected branches
     - name: Upload artifact
       if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Build-win-x86_64
+        name: Builds
         path: SphereSvrX-win-x86_64-nightly.zip
 
 
@@ -40,7 +40,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Add msbuild to PATH
@@ -54,14 +54,14 @@ jobs:
             mkdir accounts, logs, save, scripts
             7z a SphereSvrX-win-x86-nightly.zip accounts\ logs\ save\ scripts\ .\bin-x86\Nightly\SphereSvrX32_nightly.exe .\src\sphere.ini .\src\sphereCrypt.ini .\lib\bin\x86\mariadb\libmariadb.dll
 
-    # Upload artifact linked to the workflow run - only if the run is for a pull request, or for selected branches
+    # only upload artifact in pull request or if is main/master branch
     - name: Upload artifact
       if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Build-win-x86
+        name: Builds
         path: SphereSvrX-win-x86-nightly.zip
 
 
@@ -70,7 +70,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Install prerequisites
@@ -98,14 +98,14 @@ jobs:
             mkdir accounts logs save scripts
             tar -czf SphereSvrX-linux-x86_64-nightly.tar.gz accounts/ logs/ save/ scripts/ build/bin-x86_64/SphereSvrX64_nightly src/sphere.ini src/sphereCrypt.ini
 
-    # Upload artifact linked to the workflow run - only if the run is for a pull request, or for selected branches
+    # only upload artifact in pull request or if is main/master branch
     - name: Upload artifact
       if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Build-linux-x86_64
+        name: Builds
         path: SphereSvrX-linux-x86_64-nightly.tar.gz
 
   linux-x86:
@@ -113,7 +113,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Install prerequisites
@@ -175,14 +175,14 @@ jobs:
             mkdir accounts logs save scripts
             tar -czf SphereSvrX-linux-x86-nightly.tar.gz accounts/ logs/ save/ scripts/ build/bin-x86/SphereSvrX32_nightly src/sphere.ini src/sphereCrypt.ini
 
-    # Upload artifact linked to the workflow run - only if the run is for a pull request, or for selected branches
+    # only upload artifact in pull request or if is main/master branch
     - name: Upload artifact
       if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Build-linux-x86
+        name: Builds
         path: SphereSvrX-linux-x86-nightly.tar.gz
 
 
@@ -194,7 +194,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Install prerequisites
@@ -224,38 +224,34 @@ jobs:
             zip -r SphereSvrX-osx-x86_64-nightly.zip accounts/ logs/ save/ scripts/
             zip SphereSvrX-osx-x86_64-nightly.zip src/sphere.ini src/sphereCrypt.ini build/bin-x86_64/*
 
-    # Upload artifact linked to the workflow run - only if the run is for a pull request, or for selected branches
+    # only upload artifact in pull request or if is main/master branch
     - name: Upload artifact
       if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Build-osx-x86_64
+        name: Builds
         path: SphereSvrX-osx-x86_64-nightly.zip
 
 
   upload:
     needs: [windows-x86_64, windows-x86, linux-x86_64, linux-x86, macos-x86_64]
-    # Upload artifact linked to GitHub RELEASE we are creating - only if the run is for a pull request, or for selected branches
-    if: contains(fromJson('["master", "main", "dev"]'), github.ref_name) || ${{ github.event_name == 'pull_request' }}
+    if: contains(fromJson('["master", "main", "dev"]'), github.ref_name)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Download builds
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
-          pattern: Build-*
-          merge-multiple: true
-
+          name: Builds
       - name: Generate changelog
         run: git log --pretty=format:"%ad %an %s" --date=short > Git-Changelog.txt
-
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
