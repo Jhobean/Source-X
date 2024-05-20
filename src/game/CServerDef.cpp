@@ -119,34 +119,40 @@ size_t CServerDef::StatGet(SERV_STAT_TYPE i) const
 				d = usage.ru_idrss;
 			else
 			{
-				CSFileText inf;
-				tchar * buf = Str_GetTemp(), * head;
+                CSFileText inf;
+                char buf[50];
+                char* head;
+                if (inf.Open("/proc/self/status", OF_READ | OF_TEXT))
+                {
+                    for (;;)
+                    {
+                        if (!inf.ReadString(buf, sizeof(buf)))
+                            break;
 
-				sprintf(buf, "/proc/%d/status", getpid());
-				if ( inf.Open(buf, OF_READ|OF_TEXT) )
-				{
-					for (;;)
-					{
-						if ( !inf.ReadString(buf, SCRIPT_MAX_LINE_LEN) )
-							break;
+                        if ((head = strstr(buf, "VmRSS:")) != nullptr)
+                        {
+                            head += 6;
+                            GETNONWHITESPACE(head);
+                            char* head_stop = head;
+                            while (head_stop++) {
+                                if (!isdigit(*head_stop))
+                                    break;
+                            }
+                            *head_stop = '\0';
+                            d = atoi(head); // In kB
+                            break;
+                        }
+                    }
+                    inf.Close();
+                }
+            }
 
-						if ( (head = strstr(buf, "VmSize:")) != nullptr )
-						{
-							head += 7;
-							GETNONWHITESPACE(head)
-							d = atoi(head) * 1000;
-							break;
-						}
-					}
-					inf.Close();
-				}
-			}
+            if (!d)
+            {
+                g_Log.EventError(("Unable to load process information from getrusage() and procfs. Memory information will be not available.\n"));
+                m_fPmemory = false;
+            }
 
-			if ( !d )
-			{
-				g_Log.EventError(("Unable to load process information from getrusage() and procfs. Memory information will be not available.\n"));
-				m_fPmemory = false;
-			}
 #endif
 
 			if ( d != 0 )
