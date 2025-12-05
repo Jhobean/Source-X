@@ -39,9 +39,9 @@ jobs:
 
       - name: Create package
         run: |
-          pwd
-          mkdir accounts logs save scripts
-          7z a SphereSvrX-win-x86_64-nightly.zip accounts\ logs\ save\ scripts\ .\bin-x86_64\Nightly\SphereSvrX64_nightly.exe .\src\sphere.ini .\src\sphereCrypt.ini .\lib\_bin\x86_64\mariadb\libmariadb.dll
+            pwd
+            mkdir accounts, logs, save, scripts
+            7z a SphereSvrX-win-x86_64-nightly.zip accounts\ logs\ save\ scripts\ .\bin-x86_64\Nightly\SphereSvrX64_nightly.exe .\src\sphere.ini .\src\sphereCrypt.ini .\lib\_bin\x86_64\mariadb\libmariadb.dll
 
       # Upload artifact for later release jobs (main/master/dev or PR)
       - name: Upload artifact
@@ -113,6 +113,7 @@ jobs:
   # Optional self-host upload only for master/main
   upload_selfhost_release:
     needs: windows-x86_64
+    # Run only on master/main AND only on the official SphereServer repo
     if: contains(fromJson('["master", "main"]'), github.ref_name) && (github.repository == 'SphereServer/Source-X')
     permissions:
       contents: write
