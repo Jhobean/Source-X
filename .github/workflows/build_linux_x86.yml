@@ -135,8 +135,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: DEV_Nightly
-          tag_name: DEV_Nightly
+          name: Dev Nightly
+          tag_name: Dev
           prerelease: true
           files: SphereSvrX-linux-x86-nightly.tar.gz
 
