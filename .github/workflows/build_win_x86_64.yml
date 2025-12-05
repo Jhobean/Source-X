@@ -2,7 +2,10 @@ name: Windows x86_64
 
 on:
   push:
-    # We ignore docs & text changes to avoid unnecessary builds
+    branches:
+      - 'master'
+      - 'main'
+      - 'dev'
     paths-ignore:
       - '.gitignore'
       - '.gitattributes'
