@@ -35,11 +35,6 @@ jobs:
       - name: Generate changelog
         run: git log --pretty=format:"%ad %an %s" --date=short > Git-Changelog.txt
 
-      - name: Create source archives
-        run: |
-          git archive --format=zip --output=SourceCode-dev.zip HEAD
-          git archive --format=tar.gz --output=SourceCode-dev.tar.gz HEAD
-
       - name: Add files to Dev release
         uses: softprops/action-gh-release@v2
         env:
@@ -50,8 +45,6 @@ jobs:
           prerelease: true
           files: |
             Git-Changelog.txt
-            SourceCode-dev.zip
-            SourceCode-dev.tar.gz
 
   release_main:
     if: contains(fromJson('["master","main"]'), github.ref_name)
@@ -77,11 +70,6 @@ jobs:
       - name: Generate changelog
         run: git log --pretty=format:"%ad %an %s" --date=short > Git-Changelog.txt
 
-      - name: Create source archives
-        run: |
-          git archive --format=zip --output=SourceCode-nightly.zip HEAD
-          git archive --format=tar.gz --output=SourceCode-nightly.tar.gz HEAD
-
       - name: Add files to Nightly release
         uses: softprops/action-gh-release@v2
         env:
@@ -92,5 +80,3 @@ jobs:
           prerelease: true
           files: |
             Git-Changelog.txt
-            SourceCode-nightly.zip
-            SourceCode-nightly.tar.gz
