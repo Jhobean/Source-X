@@ -54,61 +54,58 @@ jobs:
           path: SphereSvrX-win-x86_64-nightly.zip
           overwrite: true
 
-  # Attach artifact to Nightly release for master/main
-  upload_github_release_main:
-    needs: windows-x86_64
-    if: contains(fromJson('["master", "main"]'), github.ref_name)
-    permissions:
-      contents: write    # required to modify release assets
-      actions: write
-    runs-on: ubuntu-latest
+# Release job for master/main → goes to "Nightly"
+upload_github_release_main:
+  needs: windows-x86_64
+  if: contains(fromJson('["master", "main"]'), github.ref_name)
+  permissions:
+    contents: write
+    actions: write
+  runs-on: ubuntu-latest
+  steps:
+    - name: Download builds
+      uses: actions/download-artifact@v5
+      with:
+        name: Build-win-x86_64
+        merge-multiple: true
+        run-id: ${{ github.run_id }}
 
-    steps:
-      - name: Download builds
-        uses: actions/download-artifact@v5
-        with:
-          name: Build-win-x86_64
-          merge-multiple: true
-          run-id: ${{ github.run_id }}
+    - name: Upload to Nightly release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: Nightly
+        tag_name: Nightly
+        prerelease: true
+        files: SphereSvrX-win-x86_64-nightly.zip
 
-      # Upload artifact to the Nightly release (tag: Nightly)
-      - name: Upload to Nightly release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: Nightly
-          tag_name: Nightly
-          prerelease: true
-          files: SphereSvrX-win-x86_64-nightly.zip
+# Release job for dev → goes to "Dev Nightly"
+upload_github_release_dev:
+  needs: windows-x86_64
+  if: github.ref_name == 'dev'
+  permissions:
+    contents: write
+    actions: write
+  runs-on: ubuntu-latest
+  steps:
+    - name: Download builds
+      uses: actions/download-artifact@v5
+      with:
+        name: Build-win-x86_64
+        merge-multiple: true
+        run-id: ${{ github.run_id }}
 
-  # Attach artifact to Dev Nightly release for dev
-  upload_github_release_dev:
-    needs: windows-x86_64
-    if: github.ref_name == 'dev'
-    permissions:
-      contents: write    # required to modify release assets
-      actions: write
-    runs-on: ubuntu-latest
+    - name: Upload to Dev Nightly release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: Dev Nightly
+        tag_name: Dev
+        prerelease: true
+        files: SphereSvrX-win-x86_64-nightly.zip
 
-    steps:
-      - name: Download builds
-        uses: actions/download-artifact@v5
-        with:
-          name: Build-win-x86_64
-          merge-multiple: true
-          run-id: ${{ github.run_id }}
-
-      # Upload artifact to the Dev Nightly release (tag: Dev)
-      - name: Upload to Dev Nightly release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: Dev Nightly
-          tag_name: Dev
-          prerelease: true
-          files: SphereSvrX-win-x86_64-dev.zip
 
   # Optional self-host upload only for master/main
   upload_selfhost_release:
