@@ -11,11 +11,11 @@ on:
       - '*.md'
 
 jobs:
-  upload_github_release:
+  release_dev:
+    if: github.ref_name == 'dev'
     permissions:
-      contents: write   # nécessaire pour gérer les tags et releases
+      contents: write
       actions: read
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,7 +23,48 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Supprimer et recréer le tag Nightly sur le dernier commit
+      - name: Reset Dev tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag -d Dev || true
+          git push origin :refs/tags/Dev || true
+          git tag Dev
+          git push origin Dev
+
+      - name: Generate changelog
+        run: git log --pretty=format:"%ad %an %s" --date=short > Git-Changelog.txt
+
+      - name: Create source archives
+        run: |
+          git archive --format=zip --output=SourceCode-dev.zip HEAD
+          git archive --format=tar.gz --output=SourceCode-dev.tar.gz HEAD
+
+      - name: Add files to Dev release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Dev Nightly
+          tag_name: Dev
+          prerelease: true
+          files: |
+            Git-Changelog.txt
+            SourceCode-dev.zip
+            SourceCode-dev.tar.gz
+
+  release_main:
+    if: contains(fromJson('["master","main"]'), github.ref_name)
+    permissions:
+      contents: write
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
       - name: Reset Nightly tag
         run: |
           git config user.name "github-actions"
@@ -36,7 +77,12 @@ jobs:
       - name: Generate changelog
         run: git log --pretty=format:"%ad %an %s" --date=short > Git-Changelog.txt
 
-      - name: Add auxiliary files to the release
+      - name: Create source archives
+        run: |
+          git archive --format=zip --output=SourceCode-nightly.zip HEAD
+          git archive --format=tar.gz --output=SourceCode-nightly.tar.gz HEAD
+
+      - name: Add files to Nightly release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,5 +92,5 @@ jobs:
           prerelease: true
           files: |
             Git-Changelog.txt
-            ./SourceCode.zip
-            ./SourceCode.tar.gz
+            SourceCode-nightly.zip
+            SourceCode-nightly.tar.gz
