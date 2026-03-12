@@ -61,7 +61,7 @@ jobs:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           # Use dynamic variables
-          name: "${{ env.RELEASE_NAME }} - $(date +'%Y-%m-%d')"
+          name: "${{ env.RELEASE_NAME }}"
           tag_name: ${{ env.TARGET_TAG }}
           prerelease: true
           files: Git-Changelog.txt
